@@ -1,4 +1,4 @@
-import json, requests
+import json
 from datetime import datetime
 from flask import Blueprint, request, abort, current_app
 from api import cfg as ext_cfg
