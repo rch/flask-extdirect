@@ -1,4 +1,4 @@
-import sys, json, requests, flask, datetime, random, hashlib
+import sys, json, flask, datetime, random, hashlib
 from flask import request, session, current_app
 from itertools import imap, count
 from dateutil.rrule import rrule, DAILY, MO, TU, WE, TH, FR
