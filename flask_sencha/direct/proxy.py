@@ -2,8 +2,8 @@ import json
 from datetime import datetime
 from flask import Blueprint, request, abort, current_app
 from api import cfg as ext_cfg
-from router import doRpc, BogusAction
-
+from router import something, BogusAction
+import message, resource
 
 ext_api = Blueprint('direct', __name__)
 
@@ -38,10 +38,11 @@ def router():
         local_response = None;
         if type(data) is list:
             local_response = []
-            for datum in data:
-                local_response.append(doRpc(datum))   
+            for item in data:
+                msg = message.parse(item)
+                local_response.append(something(msg))   
         else:
-            local_response = doRpc(data)
+            local_response = something(data)
         if isForm and isUpload:
             response_content = '<html><body><textarea>' 
             response_content += json.dumps(local_response)

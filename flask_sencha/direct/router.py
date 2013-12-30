@@ -1,4 +1,6 @@
 import resource
+import message
+from message import DirectRequest
 from config import API
 from flask import request, session, current_app
 
@@ -21,31 +23,34 @@ class BogusAction(dict):
         self[key] = value 
 
 
-def doRpc(cdata):
+def something(cdata):
+    if type(cdata) is not DirectRequest:
+        # log deprecated call (we shouldn't be parsing here)
+        # this creates a Message from cdata
+        msg = message.parse(cdata)
+    else:
+        msg = cdata
     
-    if not API.has_key(cdata['action']):
-        raise Exception('Call to undefined action: ' . cdata.action)
+    if not API.has_key(msg.name):
+        raise Exception('Call to undefined action: ' . msg.name)
     
-    action = cdata['action']
-    a = API[action]
-
+    # grabs the name of the action - 
+    a = API[msg.name]
+    
     # doAroundCalls(a['before'], cdata)
-
-    method = cdata['method']
-    mdef = a['methods'][method]
-    if not mdef:
-        raise Exception("Call to undefined method: %s on action %" % (method, action))
     
-    # doAroundCalls(mdef['before'], cdata);
+    mdef = a['methods'][msg.method]
+    if not mdef:
+        raise Exception("Call to undefined method: %s on action %" % (msg.method, msg.name))
 
     r = {
-        'type': 'rpc',
-        'tid': cdata['tid'],
-        'action': action,
-        'method': method
+        'type': msg.type,
+        'tid': msg.tid,
+        'action': msg.name,
+        'method': msg.method
     }
 
-    cls = getattr(resource, action)
+    cls = getattr(resource, msg.name)
     o = cls()
     
     if mdef.has_key('len'):
@@ -56,32 +61,9 @@ def doRpc(cdata):
         else:
             params = [cdata.data]
     
-    fn = getattr(o, method)
+    fn = getattr(o, msg.method)
     r['result'] = fn(params)
 
-    # doAroundCalls(mdef['after'], cdata, r);
-    # doAroundCalls(a['after'], cdata, r);
-    
-    """
-    except Exception as e:
-        
-        r = {}
-        r['type'] = 'exception';
-        r['message'] = str(e)
-        r['where'] = 'server.direct.router'
-    """
     return r;
-
-
-
-def doAroundCalls(fns, cdata, returnData=None):
-    if not fns:
-        return
-    
-    if type(fns) is list:
-        for fn in fns:
-            fn(cdata, returnData)
-    else:
-        fns(cdata, returnData)
 
     

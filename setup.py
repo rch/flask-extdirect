@@ -20,6 +20,9 @@ setup(
     packages=[
         'flask_sencha',
         'flask_sencha.direct',
+        'flask_sencha.direct.message',
+        'flask_sencha.direct.message.action',
+        'flask_sencha.direct.message.action.data',
         'flask_sencha.direct.resource',
         'flask_sencha.direct.resource.provider',
     ],
@@ -27,8 +30,8 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'python-dateutil',
-        'Flask',
+        #'python-dateutil',
+        #'Flask',
     ],
     classifiers=[
         'Environment :: Web Environment',
