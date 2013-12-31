@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from flask import Blueprint, request, abort, current_app
 from api import cfg as ext_cfg
-from router import something, BogusAction
+from router import something
 import message, resource
 
 ext_api = Blueprint('direct', __name__)
@@ -28,11 +28,11 @@ def router():
         elif request.form.has_key('extAction'):
             isForm = True;
             isUpload = request.form['extUpload'] == 'true';
-            data = BogusAction();
-            data.action = request.form['extAction'];
-            data.method = request.form['extMethod'];
-            data.tid = request.form['extTID'] if request.form.has_key('extTID') else None # not set for upload
-            data.data = [request.form, request.files]
+            # data = BogusAction();
+            # data.action = request.form['extAction'];
+            # data.method = request.form['extMethod'];
+            # data.tid = request.form['extTID'] if request.form.has_key('extTID') else None # not set for upload
+            # data.data = [request.form, request.files]
         else:
             raise Exception('Invalid request.')
         local_response = None;

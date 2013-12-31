@@ -6,6 +6,13 @@ import action
 
 DirectRequest = namedtuple('DirectRequest', ['action','type','tid','data','method'])
 
+DirectResponse = namedtuple('DirectResponse', ['action','type','tid','data','method','result'])
+
+
+def make_response(req, result):
+    return DirectResponse(*(cdata + (result,)))
+
+
 # this poor, inefficient method is just a placeholder
 # that will provide sufficient functionality while I'm
 # focusing on other aspects of the package   

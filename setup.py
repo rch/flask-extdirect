@@ -30,8 +30,8 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
-        #'python-dateutil',
-        #'Flask',
+        'python-dateutil',
+        'Flask',
     ],
     classifiers=[
         'Environment :: Web Environment',

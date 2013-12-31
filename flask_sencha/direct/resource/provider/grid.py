@@ -9,8 +9,12 @@ class GridProvider(object):
     
     key = 'txn_data'
     
-    def __init__(self):
+    def __init__(self, message=None):
         self.data = []
+        self.parms = message.cdata['data']
+    
+    def __call__(self, params):
+        return self.items(params)
     
     def initialize(self):
         start_date = datetime.date.today() + datetime.timedelta(days=-90)
@@ -25,7 +29,7 @@ class GridProvider(object):
             'checked':False,
             } for date in date_range]
     
-    def items(self, params):
+    def items(self, params=None):
         if not self.key in session:
             # populate session with fake data
             self.initialize()

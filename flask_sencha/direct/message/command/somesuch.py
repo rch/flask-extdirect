@@ -1,0 +1,3 @@
+
+class Whatever(object):
+    pass
