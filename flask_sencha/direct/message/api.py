@@ -2,7 +2,7 @@ from collections import namedtuple
 from itertools import izip, tee
 import directrpc_pb2
 from directrpc_pb2 import Message, Item, Action, Range
-import action
+import action, action.data
 
 DirectRequest = namedtuple('DirectRequest', ['action','type','tid','data','method'])
 
@@ -10,7 +10,9 @@ DirectResponse = namedtuple('DirectResponse', ['action','type','tid','data','met
 
 
 def make_response(req, result):
-    return DirectResponse(*(cdata + (result,)))
+    req['result'] = result
+    rsp = DirectResponse(**req)
+    return dict((k,v) for k,v in zip(rsp._fields, rsp))
 
 
 # this poor, inefficient method is just a placeholder

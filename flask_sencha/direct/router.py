@@ -1,8 +1,6 @@
-import action
-import resource
-import message
-from message import DirectRequest, DirectResponse, make_response
-from config import API
+import message, resource
+from message import action
+from message.api import make_response, DirectRequest, DirectResponse 
 from flask import request, session, current_app
 
 
@@ -11,12 +9,9 @@ def something(cdata):
         # log deprecated call (we shouldn't be parsing here)
         # this creates a Message from cdata
         msg = message.parse(cdata)
-        # attach a reference to cdata sine we're not handling 
-        # params from the real message yet
-        msg.cdata = cdata
     else:
         msg = cdata
     
-    delegate = action.create_from(msg)
+    delegate = action.create_from(msg, cdata)
     
-    return make_reponse(cdata, delegate())
+    return make_response(cdata, delegate(cdata))

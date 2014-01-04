@@ -1,8 +1,6 @@
-import data
-from .. import resource
+import os, sys
+from ... import resource
 
-__all__ = ['data']
-
-def create_from(message):
+def create_from(message, cdata):
     Action = getattr(resource, message.name)
-    return Action(message)
+    return Action(message, cdata)

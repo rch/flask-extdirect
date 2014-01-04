@@ -9,9 +9,10 @@ class GridProvider(object):
     
     key = 'txn_data'
     
-    def __init__(self, message=None):
+    def __init__(self, message=None, cdata=None):
         self.data = []
-        self.parms = message.cdata['data']
+        self.cdata = cdata
+        self.parms = message.data
     
     def __call__(self, params):
         return self.items(params)
@@ -34,13 +35,13 @@ class GridProvider(object):
             # populate session with fake data
             self.initialize()
         self.data = session[self.key]
-        if reduce(lambda x,y: x|y, imap(lambda d: 'id' in d, params)):
+        if reduce(lambda x,y: x|y, imap(lambda d: 'id' in d, params['data'])):
             self.update(params)
         return {"total": len(self.data), "data":self.data}
     
     def update(self, params):
-        updates = dict((entry['id'], entry) for entry in params)
-        for entry, num in zip(self.data, count()):
+        updates = dict((entry['id'], entry) for entry in params['data'])
+        for num, entry in enumerate(self.data):
             if entry['id'] in updates:
                 self.data[num] = updates[entry['id']]
         session[self.key] = self.data

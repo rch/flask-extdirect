@@ -1,4 +1,4 @@
-
+from grid import GridProvider
 
 class BaseProvider(object):
     
