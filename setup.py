@@ -32,6 +32,7 @@ setup(
     install_requires=[
         'python-dateutil',
         'Flask',
+        'celery',
     ],
     classifiers=[
         'Environment :: Web Environment',
