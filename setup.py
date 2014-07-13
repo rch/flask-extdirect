@@ -8,13 +8,13 @@ from setuptools import setup
 
 
 setup(
-    name='Flask-Sencha',
+    name='Flask-ExtDirect',
     version='0.1',
     url='http://github.com/rch/flask-extdirect',
-    license='BSD',
+    license='MIT',
     author='Ryan C. Hill',
     author_email='@zndx.org',
-    description='Very short description',
+    description='Sencha Ext.Direct connector for Flask',
     long_description=__doc__,
     # py_modules=['flask_extdirect'],
     packages=[
@@ -32,12 +32,12 @@ setup(
     install_requires=[
         'python-dateutil',
         'Flask',
-        'celery',
+        'Celery',
     ],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
